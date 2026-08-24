@@ -1,0 +1,318 @@
+{
+  "charter_id": "neuroai-m1-v1",
+  "version": "1.3-frozen",
+  "status": "frozen_pre_result",
+  "decision_owner": "Sofia",
+  "scientific_decisions": {
+    "D26": "D26_A_strict_inductive",
+    "D29": "D29_A_300_to_1600_ms_exact_950_ms_midpoint",
+    "D42": "D42_A_omit_balanced_accuracy",
+    "D44": "D44_C_outer_training_selected_C_qualified_meta_predictions"
+  },
+  "exploratory": true,
+  "exploratory_reason": "Labeled R4 cohort evidence informed the 2 Hz lower bound and two-bin M1 design.",
+  "question": "Does study-period spectral EEG add held-session predictive information about immediate free recall beyond word and serial-position predictors?",
+  "claim_ceiling": "Exploratory incremental predictive value in this measured pipeline only.",
+  "dataset": {
+    "name": "PEERS",
+    "experiment": "ltpFR",
+    "scope": "personal_local_derivatives_only",
+    "preprocessing_mutable": false
+  },
+  "outcome": {
+    "name": "recalled",
+    "type": "boolean",
+    "positive_event": "REC_WORD",
+    "match_keys": ["subject_id", "session", "trial", "item_num"],
+    "require_item_num_positive": true,
+    "exclude_practice_trial_leq": 0,
+    "exclude_study_sample_lt": 0,
+    "include_final_free_recall": false,
+    "include_recognition": false
+  },
+  "canonical_trial_key": ["subject_id", "session", "trial", "item_num"],
+  "conditions": {
+    "primary": "ocular-removed",
+    "sensitivity": "ocular-kept",
+    "direct_comparison_requires_common_key_intersection": true
+  },
+  "cohort": {
+    "minimum_complete_sessions_per_subject_condition": 3,
+    "outer_test_session": "highest_eligible_session_number",
+    "minimum_outer_training_sessions": 2,
+    "require_two_classes_in_all_fit_and_score_partitions": true,
+    "performance_based_eligibility": false,
+    "named_subject_exceptions": false,
+    "attrition_required": true
+  },
+  "splits": {
+    "outer": "held_highest_session_within_subject_condition",
+    "inner": "leave_one_outer_training_session_out",
+    "random_trial_split_allowed": false,
+    "selection_metric": "mean_inner_session_roc_auc",
+    "tie_break": "smallest_C_then_declared_grid_order"
+  },
+  "features": {
+    "source": "cached_mne_epochs",
+    "method": "morlet_power",
+    "frequencies_hz": [
+      2.0,
+      3.4973572431802795,
+      6.115753843212784,
+      10.694488000533932,
+      18.701222535385963,
+      32.7024280452292,
+      57.18603679678215,
+      100.0
+    ],
+    "frequency_ids": ["f00", "f01", "f02", "f03", "f04", "f05", "f06", "f07"],
+    "frequency_formula": "numpy.logspace(numpy.log10(2), numpy.log10(100), 8)",
+    "n_cycles_formula": "frequency_hz / 2",
+    "decim": 4,
+    "log_transform": "log10(power + 1e-30)",
+    "normalization": {
+      "decision": "D26_A_strict_inductive",
+      "input": "log10_morlet_power_before_time_bin_and_roi_aggregation",
+      "fit_scope": "permitted_model_training_sessions_only",
+      "inner_fit_scope": "inner_training_sessions_only",
+      "outer_refit_scope": "all_outer_training_sessions_only",
+      "statistic_axes": ["trial", "time"],
+      "preserved_axes": ["channel", "frequency"],
+      "ddof": 0,
+      "zero_standard_deviation_policy": "replace_with_1_then_center",
+      "validation_application": "apply_inner_training_mean_and_std_unchanged",
+      "outer_test_application": "apply_outer_training_mean_and_std_unchanged",
+      "label_access": false,
+      "held_session_distribution_access": false,
+      "optional_sensitivity_if_compute_permits": "D26_B_transductive_whole_held_session_batch_zscore_prespecified_not_primary"
+    },
+    "analysis_window_s": [0.3, 1.6],
+    "time_bins_s": [[0.3, 0.95], [0.95, 1.6]],
+    "time_bin_interval_convention": [
+      "left_closed_right_open",
+      "left_closed_right_closed"
+    ],
+    "time_bin_ids": ["t0", "t1"],
+    "roi_map_id": "neuroai-m1-roi-v1",
+    "roi_map_companion": "docs/roi-map-m1-v1.json",
+    "roi_order": ["LAI", "LAS", "LPI", "LPS", "RAI", "RAS", "RPI", "RPS"],
+    "roi_channels": {
+      "LAI": ["E22", "E33", "E27", "E34", "E28"],
+      "LAS": ["E23", "E24", "E19", "E29", "E13"],
+      "LPI": ["E46", "E47", "E58", "E51", "E70"],
+      "LPS": ["E42", "E37", "E52", "E60", "E67"],
+      "RAI": ["E9", "E122", "E123", "E116", "E117"],
+      "RAS": ["E3", "E124", "E4", "E111", "E112"],
+      "RPI": ["E102", "E98", "E96", "E97", "E83"],
+      "RPS": ["E93", "E87", "E92", "E85", "E77"]
+    },
+    "roi_translation_claim": "Project-specific HydroCel-129 implementation of a published eight-factor scalp scheme; not exact replication and not cortical localization.",
+    "aggregation": "arithmetic_mean_over_declared_time_samples_and_roi_channels",
+    "feature_order": ["time_bin", "roi", "frequency_ascending"],
+    "feature_name_template": "eeg__time-{time_bin_id}__roi-{roi_id}__freq-{frequency_id}",
+    "feature_axis_id_policy": "Ordinal IDs are byte-stable labels only; exact Hz and time boundaries remain hash-bound numeric metadata.",
+    "dtype": "float64",
+    "finite_required": true,
+    "missing_channel_policy": "fail_subject_condition",
+    "expected_feature_count": 128,
+    "expected_feature_count_formula": "2 * 8 * 8"
+  },
+  "learners": {
+    "B3": {
+      "inputs": ["position", "lexical", "leave_one_subject_out_memorability"],
+      "memorability_smoothing": 10.0,
+      "memorability_reference_population": "full_valid_local_ltpFR_behavioral_trial_table",
+      "memorability_target_subject_excluded_from": [
+        "word_numerator",
+        "word_denominator",
+        "smoothing_grand_mean"
+      ],
+      "memorability_join_scope": "compute_from_reference_population_then_join_to_condition_survivor_rows",
+      "memorability_implementation_status": "F17_corrected_target_excluded_from_word_counts_and_smoothing_prior",
+      "memorability_regression_tests": [
+        "target_excluded_prior_and_word_counts_exact_fixture",
+        "target_outcome_perturbation_does_not_change_own_features",
+        "single_participant_reference_fails_closed"
+      ],
+      "pipeline": ["StandardScaler", "LogisticRegression"],
+      "penalty": "l2",
+      "C": 1.0,
+      "solver": "lbfgs",
+      "max_iter": 2000,
+      "fit_intercept": true,
+      "class_weight": null,
+      "refit_on_exact_survivor_rows": true
+    },
+    "M1": {
+      "inputs": "frozen_M1_features_only",
+      "model": "LogisticRegression",
+      "penalty": "l2",
+      "C_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+      "solver": "lbfgs",
+      "max_iter": 2000,
+      "fit_intercept": true,
+      "class_weight": null,
+      "calibration": false,
+      "feature_selection": false,
+      "extra_scaler": false
+    },
+    "M3": {
+      "inputs": ["prob_b3", "prob_m1"],
+      "model": "LogisticRegression",
+      "penalty": "l2",
+      "C": 1.0,
+      "solver": "lbfgs",
+      "max_iter": 2000,
+      "fit_intercept": true,
+      "class_weight": null,
+      "calibration": false,
+      "extra_scaler": false,
+      "raw_features_allowed": false,
+      "meta_training_predictions": "session_out_coefficients_and_transforms_conditional_on_outer_training_selected_C"
+    }
+  },
+  "cross_fitting": {
+    "unit": "session",
+    "in_sample_first_level_predictions_allowed": false,
+    "record_row_fit_key_hashes": true,
+    "outer_test_first_level_fit_scope": "all_outer_training_rows_only",
+    "meta_fit_scope": "session_out_coefficients_and_transforms_conditional_on_outer_training_selected_C",
+    "M1_C_selection_scope": "outer_training_wide_inner_session_C_selection_including_meta_prediction_session",
+    "predicted_session_labels_may_influence_selected_C": true,
+    "outer_test_session_used_for_selection": false,
+    "fully_session_cross_fitted_claim_allowed": false,
+    "provenance_contract": "neuroai-m1-d44-c-cross-fit-provenance-v1"
+  },
+  "determinism": {
+    "global_seed": 0,
+    "bootstrap_seed": 0,
+    "bootstrap_subject_resamples": 2000,
+    "permutation_seed": 0,
+    "default_permutation_draws": 10000,
+    "session_folds_shuffled": false
+  },
+  "estimands": {
+    "primary_condition": "ocular-removed",
+    "primary": "unweighted_mean_subject_auc_M3_minus_refit_B3",
+    "uncertainty": "95_percentile_subject_bootstrap_interval",
+    "secondary": [
+      "B3_subject_auc",
+      "M1_subject_auc",
+      "M3_subject_auc",
+      "IDI",
+      "continuous_NRI",
+      "paired_DeLong",
+      "Brier_score",
+      "ocular_kept_sensitivity"
+    ],
+    "balanced_accuracy_policy": {
+      "decision": "D42_A_omit_balanced_accuracy",
+      "included": false,
+      "status": "deliberately_omitted_not_computed",
+      "threshold": null
+    },
+    "secondary_can_create_positive_path": false
+  },
+  "result_categories": {
+    "positive_increment": "primary_ci_low_gt_0",
+    "adverse_increment": "primary_ci_high_lt_0",
+    "no_detectable_increment__imprecise": "primary_ci_includes_0",
+    "condition_discordant": "sensitivity_modifier_if_point_estimate_sign_or_interval_category_differs",
+    "equivalence_claim_allowed": false
+  },
+  "provenance": {
+    "required_hash_algorithm": "sha256",
+    "cache_key_fields": [
+      "derivative_hashes",
+      "epoch_metadata_hash",
+      "code_commit_or_dirty_diff_hash",
+      "charter_hash",
+      "feature_schema_version",
+      "feature_schema_sha256",
+      "condition",
+      "trial_manifest_hash",
+      "fold_manifest_hash",
+      "uv_lock_hash",
+      "python_and_package_versions",
+      "output_schema_version"
+    ],
+    "atomic_cache_writes": true,
+    "mismatched_cache_reuse": false
+  },
+  "execution_gates": {
+    "preflight": {
+      "candidate_scope": "subjects_technically_eligible_in_both_conditions_before_outcome_access",
+      "workload_sort": [
+        "total_eligible_trials_across_both_conditions_ascending",
+        "total_input_bytes_across_both_conditions_ascending",
+        "subject_id_ascending"
+      ],
+      "selected_roles": {
+        "median": "index_floor_n_minus_1_over_2",
+        "maximum": "last_index"
+      },
+      "distinct_if_possible": true,
+      "conditions": ["ocular-removed", "ocular-kept"],
+      "outcome_metrics_or_interpretation_allowed": false,
+      "required_measurements": [
+        "stage_wall_seconds",
+        "total_wall_seconds",
+        "peak_resident_memory_bytes",
+        "input_bytes",
+        "cache_bytes_written",
+        "disk_available_bytes_before_and_after",
+        "parallel_worker_count",
+        "longest_stage_wall_seconds",
+        "longest_no_progress_seconds",
+        "transient_retry_count",
+        "scaled_full_run_forecast_wall_seconds",
+        "projected_remaining_cache_bytes",
+        "host_safe_memory_floor_bytes"
+      ]
+    },
+    "full_locked_run": {
+      "required_gates": [
+        "validated_preflight_budget_receipt",
+        "Sofia_capacity_go"
+      ],
+      "cutoff_source": "Sofia_selected_current_run_cutoff_recorded_after_preflight",
+      "per_subject_timeout_formula": "2.0_times_maximum_subject_preflight_wall_seconds",
+      "full_run_timeout_formula": "1.3_times_scaled_preflight_forecast_wall_seconds",
+      "effective_deadline": "earlier_of_run_start_plus_full_run_timeout_and_Sofia_cutoff",
+      "transient_retry_limit": 1,
+      "no_progress_abort_formula": "2.0_times_longest_preflight_stage_wall_seconds",
+      "disk_headroom_floor_formula": "1.2_times_projected_remaining_cache_bytes_plus_5_GiB",
+      "memory_floor_source": "host_safe_floor_recorded_in_preflight_receipt_before_full_run",
+      "resume_policy": "atomically_completed_hash_valid_cache_entries_only",
+      "partial_outcome_inspection_allowed": false
+    },
+    "failure": {
+      "on_compute_or_capacity_failure": "remain_IN_PROGRESS",
+      "protocol_weakening_allowed": false,
+      "record_failure_before_replan": true
+    }
+  },
+  "protocol_teach_back": {
+    "worksheet": "docs/protocol-teach-back-m1-v1.md",
+    "transcript": "docs/protocol-teach-back-transcript-m1-v1.json",
+    "transcript_schema_id": "neuroai-m1-protocol-teach-back-transcript-v1",
+    "transcript_schema_version": "1.0",
+    "receipt": "docs/protocol-teach-back-receipt-m1-v1.json",
+    "receipt_schema_id": "neuroai-m1-protocol-teach-back-v1",
+    "receipt_schema_version": "1.1",
+    "response_owner": "Sofia Lindelow",
+    "authorship_attestation": "verbatim_Sofia_owned_words",
+    "required_topic_count": 9,
+    "advisor_may_supply_answers": false,
+    "machine_claim_limit": "proves_schema_completeness_and_provenance_not_genuine_comprehension"
+  },
+  "pending_human_gates": [
+    "Sofia_protocol_teach_back"
+  ],
+  "forbidden_until_all_pre_result_gates_resolved": [
+    "build_M1_features",
+    "fit_M1_or_M3",
+    "inspect_held_out_M1_or_M3_outcomes",
+    "mark_AC_03_complete"
+  ]
+}

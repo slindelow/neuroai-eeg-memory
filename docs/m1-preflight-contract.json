@@ -1,0 +1,265 @@
+{
+  "contract_id": "neuroai-m1-preflight-capacity-v1",
+  "version": "1.2-draft",
+  "status": "receipt_runner_verified_on_invented_inputs_no_real_measurement_capacity_receipt_or_authorization",
+  "schema_definition_depends_on_resolved_scientific_choices": false,
+  "real_receipt_requires_final_charter_and_protocol_receipt": true,
+  "current_contract_stop_replan_values": [
+    "D42_C_training_only_fitted_threshold"
+  ],
+  "execution_gate_contract": {
+    "preflight": {
+      "candidate_scope": "subjects_technically_eligible_in_both_conditions_before_outcome_access",
+      "workload_sort": [
+        "total_eligible_trials_across_both_conditions_ascending",
+        "total_input_bytes_across_both_conditions_ascending",
+        "subject_id_ascending"
+      ],
+      "selected_roles": {
+        "median": "index_floor_n_minus_1_over_2",
+        "maximum": "last_index"
+      },
+      "distinct_if_possible": true,
+      "conditions": ["ocular-removed", "ocular-kept"],
+      "outcome_metrics_or_interpretation_allowed": false,
+      "required_measurements": [
+        "stage_wall_seconds",
+        "total_wall_seconds",
+        "peak_resident_memory_bytes",
+        "input_bytes",
+        "cache_bytes_written",
+        "disk_available_bytes_before_and_after",
+        "parallel_worker_count",
+        "longest_stage_wall_seconds",
+        "longest_no_progress_seconds",
+        "transient_retry_count",
+        "scaled_full_run_forecast_wall_seconds",
+        "projected_remaining_cache_bytes",
+        "host_safe_memory_floor_bytes"
+      ]
+    },
+    "full_locked_run": {
+      "required_gates": [
+        "validated_preflight_budget_receipt",
+        "Sofia_capacity_go"
+      ],
+      "cutoff_source": "Sofia_selected_current_run_cutoff_recorded_after_preflight",
+      "per_subject_timeout_formula": "2.0_times_maximum_subject_preflight_wall_seconds",
+      "full_run_timeout_formula": "1.3_times_scaled_preflight_forecast_wall_seconds",
+      "effective_deadline": "earlier_of_run_start_plus_full_run_timeout_and_Sofia_cutoff",
+      "transient_retry_limit": 1,
+      "no_progress_abort_formula": "2.0_times_longest_preflight_stage_wall_seconds",
+      "disk_headroom_floor_formula": "1.2_times_projected_remaining_cache_bytes_plus_5_GiB",
+      "memory_floor_source": "host_safe_floor_recorded_in_preflight_receipt_before_full_run",
+      "resume_policy": "atomically_completed_hash_valid_cache_entries_only",
+      "partial_outcome_inspection_allowed": false
+    },
+    "failure": {
+      "on_compute_or_capacity_failure": "remain_IN_PROGRESS",
+      "protocol_weakening_allowed": false,
+      "record_failure_before_replan": true
+    }
+  },
+  "stage_ids": [
+    "load_validate_inputs",
+    "build_validate_feature_tables",
+    "fit_predict_without_scoring",
+    "publish_readback_artifacts"
+  ],
+  "forecast_formulas": {
+    "wall_time": "max_observed_seconds_per_trial_or_input_byte_by_condition_times_full_condition_workload_then_sum",
+    "remaining_cache": "ceil_max_observed_cache_bytes_per_trial_or_input_byte_by_condition_times_unmeasured_condition_workload_then_sum",
+    "round_wall_seconds_decimal_places": 6
+  },
+  "preflight_budget_receipt": {
+    "schema_id": "neuroai-m1-preflight-budget-receipt-v1",
+    "schema_version": "1.0",
+    "exact_fields": [
+      "schema_id",
+      "schema_version",
+      "receipt_id",
+      "started_at_utc",
+      "completed_at_utc",
+      "charter_id",
+      "charter_version",
+      "charter_sha256",
+      "execution_gate_contract_sha256",
+      "protocol_teach_back_receipt_sha256",
+      "code_commit",
+      "dirty_diff_sha256",
+      "environment_lock_sha256",
+      "source_inventory_sha256",
+      "candidate_inventory",
+      "candidate_inventory_sha256",
+      "selected_roles",
+      "measurements",
+      "measurements_sha256",
+      "forecast",
+      "outcome_access_attestation"
+    ]
+  },
+  "candidate_inventory_row": {
+    "exact_fields": [
+      "subject_id",
+      "eligible_trials_by_condition",
+      "input_bytes_by_condition",
+      "trial_manifest_sha256_by_condition",
+      "total_eligible_trials",
+      "total_input_bytes"
+    ],
+    "input_bytes_definition": "sum_logical_file_sizes_of_unique_locked_epoch_derivatives_read_for_subject_condition",
+    "canonical_order": "subject_id_ascending",
+    "external_validation": "must_equal_independently_derived_both_condition_technical_eligibility_inventory"
+  },
+  "execution_source_inventory_binding": {
+    "schema_id": "neuroai-m1-execution-source-inventory-v1",
+    "components": [
+      "authenticated_N2_EEG_and_behavioral_manifest_source_inventory_sha256",
+      "full_valid_local_ltpFR_behavioral_reference_inventory_sha256"
+    ],
+    "behavioral_reference_inventory_fields": [
+      "every_events_TSV_relative_path",
+      "subject_id",
+      "session",
+      "logical_size_bytes",
+      "file_sha256",
+      "aligned_trial_count",
+      "subject_count"
+    ],
+    "purpose": "bind_B3_target_subject_excluded_memorability_population_beyond_the_40_subject_EEG_manifest_inventory"
+  },
+  "selected_roles": {
+    "exact_fields": ["median_subject_id", "maximum_subject_id"],
+    "recomputed_from": [
+      "total_eligible_trials_ascending",
+      "total_input_bytes_ascending",
+      "subject_id_ascending"
+    ],
+    "median_index": "floor((n-1)/2)"
+  },
+  "measurement_row": {
+    "exact_fields": [
+      "subject_id",
+      "roles",
+      "condition",
+      "stage_wall_seconds",
+      "total_wall_seconds",
+      "peak_resident_memory_bytes",
+      "input_bytes",
+      "cache_bytes_written",
+      "cache_artifact_set_sha256",
+      "cache_entries_atomic_hash_valid",
+      "disk_available_bytes_before",
+      "disk_available_bytes_after",
+      "parallel_worker_count",
+      "longest_stage_wall_seconds",
+      "longest_no_progress_seconds",
+      "transient_retry_count"
+    ],
+    "required_rows": "every_distinct_selected_subject_crossed_with_both_conditions",
+    "canonical_order": "subject_id_then_contract_condition_order",
+    "roles_order": ["median", "maximum"],
+    "parallel_worker_policy": "same_positive_integer_for_every_measurement",
+    "retry_policy": "integer_between_zero_and_contract_limit_inclusive",
+    "cache_reuse_policy": "only_atomically_completed_hash_valid_artifact_sets_are_subtracted_from_remaining_cache"
+  },
+  "forecast": {
+    "exact_fields": [
+      "wall_time_formula_id",
+      "remaining_cache_formula_id",
+      "eligible_subject_count",
+      "measured_subject_count",
+      "measured_subject_condition_run_count",
+      "preflight_total_wall_seconds",
+      "maximum_subject_preflight_wall_seconds",
+      "maximum_peak_resident_memory_bytes",
+      "longest_stage_wall_seconds",
+      "longest_no_progress_seconds",
+      "scaled_full_run_forecast_wall_seconds",
+      "projected_remaining_cache_bytes",
+      "host_safe_memory_floor_bytes",
+      "preflight_parallel_worker_count"
+    ],
+    "host_safe_memory_floor_claim": "operator_recorded_available_memory_abort_floor_at_least_maximum_observed_peak_RSS_not_inferred_as_universal_hardware_safety"
+  },
+  "outcome_access_attestation": {
+    "exact_fields": [
+      "outcome_metrics_computed",
+      "held_out_outcomes_inspected",
+      "interpretation_performed",
+      "attested_by_role"
+    ],
+    "fixed_values": {
+      "outcome_metrics_computed": false,
+      "held_out_outcomes_inspected": false,
+      "interpretation_performed": false,
+      "attested_by_role": "technical_operator"
+    }
+  },
+  "capacity_decision_receipt": {
+    "schema_id": "neuroai-m1-capacity-decision-receipt-v1",
+    "schema_version": "1.0",
+    "human_gate_id": "Sofia_capacity_go",
+    "exact_fields": [
+      "schema_id",
+      "schema_version",
+      "receipt_id",
+      "human_gate_id",
+      "preflight_receipt_sha256",
+      "decided_by",
+      "authorship_attestation",
+      "source_thread_id",
+      "source_message_sha256",
+      "recorded_at_utc",
+      "decision",
+      "reason_in_Sofia_words",
+      "selected_current_run_cutoff_utc",
+      "acknowledged_budget"
+    ],
+    "decided_by": "Sofia Lindelow",
+    "authorship_attestation": "verbatim_Sofia_capacity_decision",
+    "allowed_decisions": ["go", "no_go"],
+    "go_requires": "cutoff_after_recorded_at",
+    "no_go_requires": "null_cutoff_and_no_authorization"
+  },
+  "acknowledged_budget": {
+    "exact_fields": [
+      "per_subject_timeout_seconds",
+      "full_run_timeout_seconds",
+      "no_progress_abort_seconds",
+      "minimum_disk_available_bytes",
+      "host_safe_memory_floor_bytes",
+      "parallel_worker_count",
+      "transient_retry_limit",
+      "resume_policy",
+      "partial_outcome_inspection_allowed",
+      "scientific_decisions_allowed"
+    ]
+  },
+  "full_run_authorization": {
+    "schema_id": "neuroai-m1-full-run-authorization-v1",
+    "schema_version": "1.0",
+    "requires": [
+      "validated_preflight_budget_receipt",
+      "validated_Sofia_capacity_go_receipt",
+      "run_start_not_after_Sofia_cutoff",
+      "disk_at_or_above_acknowledged_floor",
+      "available_memory_at_or_above_acknowledged_floor",
+      "parallel_workers_equal_preflight_value"
+    ],
+    "scientific_decisions_allowed": false,
+    "protocol_weakening_allowed": false,
+    "partial_outcome_inspection_allowed": false,
+    "failure_state": "IN_PROGRESS"
+  },
+  "canonicalization": {
+    "encoding": "utf-8",
+    "format": "json",
+    "object_keys": "recursive_lexicographic_sort",
+    "array_order": "preserved_after_schema_specific_canonical_sort",
+    "insignificant_whitespace": false,
+    "final_newline": true,
+    "digest": "sha256"
+  },
+  "claim_limit": "validates_closed_structure_provenance_formulas_and_recorded_capacity_choice_not_measurement_truth_machine_safety_or_Sofia_authorship"
+}

@@ -1,0 +1,531 @@
+{
+  "contract_id": "neuroai-m1-evaluation-consumer-v1",
+  "version": "1.3-draft",
+  "status": "D42_A_D44_C_resolved_synthetic_subject_primary_and_common_intersection_aggregates_with_authenticated_record_storage_no_real_metrics",
+  "depends_on_resolved_scientific_choices": true,
+  "real_evaluation_requires": [
+    "final_charter_sha256",
+    "D26_resolved",
+    "D29_resolved",
+    "D42_A_omit_balanced_accuracy",
+    "D44_C_outer_training_selected_C_qualified_meta_predictions",
+    "bounded_preflight_and_capacity_policy_frozen",
+    "validated_real_prediction_table_bundles",
+    "validated_Sofia_protocol_teach_back_receipt",
+    "independent_evaluator_code_and_environment_bindings"
+  ],
+  "scientific_choices_not_selected_by_this_contract": [],
+  "resolved_scientific_inputs": [
+    "D42_A_omit_balanced_accuracy",
+    "D44_C_outer_training_selected_C_qualified_meta_predictions"
+  ],
+  "input": {
+    "only_metric_source": "validated_neuroai-m1-prediction-table-v1",
+    "arbitrary_label_or_probability_arrays_allowed": false,
+    "metric_specific_row_filtering_allowed": false,
+    "row_order": "stored_canonical_trial_key_order",
+    "primary_comparison": "M3_minus_B3_on_identical_outer_test_rows"
+  },
+  "metric_scope": {
+    "implemented_subject_metrics": [
+      "auc_b3",
+      "auc_m1",
+      "auc_m3",
+      "delta_auc_m3_minus_b3",
+      "idi_m3_vs_b3",
+      "continuous_nri_m3_vs_b3",
+      "paired_delong_z_m3_vs_b3",
+      "paired_delong_p_m3_vs_b3",
+      "brier_b3",
+      "brier_m1",
+      "brier_m3"
+    ],
+    "balanced_accuracy": "OMITTED_BY_D42_A_NOT_COMPUTED",
+    "aggregate_primary_bootstrap_and_result_category": "IMPLEMENTED_SYNTHETIC_ONLY",
+    "ocular_common_intersection_subject_metrics": "IMPLEMENTED_SYNTHETIC_ONLY",
+    "ocular_condition_discordance": "IMPLEMENTED_SYNTHETIC_ONLY"
+  },
+  "subject_record": {
+    "schema_id": "neuroai-m1-subject-evaluation-v1",
+    "schema_version": "1.0",
+    "exact_fields": [
+      "schema_id",
+      "schema_version",
+      "subject_id",
+      "condition",
+      "outer_fold_id",
+      "outer_test_session",
+      "charter_sha256",
+      "prediction_table_sha256",
+      "evaluation_contract_sha256",
+      "evaluator_code_commit",
+      "evaluator_dirty_diff_sha256",
+      "evaluator_package_versions_sha256",
+      "evaluation_command",
+      "n_trials",
+      "n_recalled",
+      "n_not_recalled",
+      "auc_b3",
+      "auc_m1",
+      "auc_m3",
+      "delta_auc_m3_minus_b3",
+      "idi_m3_vs_b3",
+      "continuous_nri_m3_vs_b3",
+      "paired_delong_z_m3_vs_b3",
+      "paired_delong_p_m3_vs_b3",
+      "brier_b3",
+      "brier_m1",
+      "brier_m3"
+    ],
+    "string_fields": [
+      "schema_id",
+      "schema_version",
+      "subject_id",
+      "condition",
+      "outer_fold_id",
+      "evaluation_command"
+    ],
+    "sha256_fields": [
+      "charter_sha256",
+      "prediction_table_sha256",
+      "evaluation_contract_sha256",
+      "evaluator_package_versions_sha256"
+    ],
+    "integer_fields": [
+      "outer_test_session",
+      "n_trials",
+      "n_recalled",
+      "n_not_recalled"
+    ],
+    "metric_fields": [
+      "auc_b3",
+      "auc_m1",
+      "auc_m3",
+      "delta_auc_m3_minus_b3",
+      "idi_m3_vs_b3",
+      "continuous_nri_m3_vs_b3",
+      "paired_delong_z_m3_vs_b3",
+      "paired_delong_p_m3_vs_b3",
+      "brier_b3",
+      "brier_m1",
+      "brier_m3"
+    ],
+    "count_contract": "n_trials_equals_n_recalled_plus_n_not_recalled",
+    "metric_values": "finite_python_float_logical_float64"
+  },
+  "common_intersection_subject_record": {
+    "schema_id": "neuroai-m1-common-intersection-subject-evaluation-v1",
+    "schema_version": "1.0",
+    "condition_order": ["ocular-removed", "ocular-kept"],
+    "source_scope": "complete_validated_common_intersection_table",
+    "exact_fields": [
+      "schema_id",
+      "schema_version",
+      "subject_id",
+      "outer_test_session",
+      "ocular_removed_outer_fold_id",
+      "ocular_kept_outer_fold_id",
+      "charter_sha256",
+      "condition_comparison_table_sha256",
+      "evaluation_contract_sha256",
+      "evaluator_code_commit",
+      "evaluator_dirty_diff_sha256",
+      "evaluator_package_versions_sha256",
+      "evaluation_command",
+      "n_trials",
+      "n_recalled",
+      "n_not_recalled",
+      "ocular_removed_auc_b3",
+      "ocular_removed_auc_m1",
+      "ocular_removed_auc_m3",
+      "ocular_removed_delta_auc_m3_minus_b3",
+      "ocular_removed_idi_m3_vs_b3",
+      "ocular_removed_continuous_nri_m3_vs_b3",
+      "ocular_removed_paired_delong_z_m3_vs_b3",
+      "ocular_removed_paired_delong_p_m3_vs_b3",
+      "ocular_removed_brier_b3",
+      "ocular_removed_brier_m1",
+      "ocular_removed_brier_m3",
+      "ocular_kept_auc_b3",
+      "ocular_kept_auc_m1",
+      "ocular_kept_auc_m3",
+      "ocular_kept_delta_auc_m3_minus_b3",
+      "ocular_kept_idi_m3_vs_b3",
+      "ocular_kept_continuous_nri_m3_vs_b3",
+      "ocular_kept_paired_delong_z_m3_vs_b3",
+      "ocular_kept_paired_delong_p_m3_vs_b3",
+      "ocular_kept_brier_b3",
+      "ocular_kept_brier_m1",
+      "ocular_kept_brier_m3"
+    ],
+    "string_fields": [
+      "schema_id",
+      "schema_version",
+      "subject_id",
+      "ocular_removed_outer_fold_id",
+      "ocular_kept_outer_fold_id",
+      "evaluation_command"
+    ],
+    "sha256_fields": [
+      "charter_sha256",
+      "condition_comparison_table_sha256",
+      "evaluation_contract_sha256",
+      "evaluator_package_versions_sha256"
+    ],
+    "integer_fields": [
+      "outer_test_session",
+      "n_trials",
+      "n_recalled",
+      "n_not_recalled"
+    ],
+    "metric_fields_by_condition": {
+      "ocular-removed": [
+        "ocular_removed_auc_b3",
+        "ocular_removed_auc_m1",
+        "ocular_removed_auc_m3",
+        "ocular_removed_delta_auc_m3_minus_b3",
+        "ocular_removed_idi_m3_vs_b3",
+        "ocular_removed_continuous_nri_m3_vs_b3",
+        "ocular_removed_paired_delong_z_m3_vs_b3",
+        "ocular_removed_paired_delong_p_m3_vs_b3",
+        "ocular_removed_brier_b3",
+        "ocular_removed_brier_m1",
+        "ocular_removed_brier_m3"
+      ],
+      "ocular-kept": [
+        "ocular_kept_auc_b3",
+        "ocular_kept_auc_m1",
+        "ocular_kept_auc_m3",
+        "ocular_kept_delta_auc_m3_minus_b3",
+        "ocular_kept_idi_m3_vs_b3",
+        "ocular_kept_continuous_nri_m3_vs_b3",
+        "ocular_kept_paired_delong_z_m3_vs_b3",
+        "ocular_kept_paired_delong_p_m3_vs_b3",
+        "ocular_kept_brier_b3",
+        "ocular_kept_brier_m1",
+        "ocular_kept_brier_m3"
+      ]
+    },
+    "metric_fields": [
+      "ocular_removed_auc_b3",
+      "ocular_removed_auc_m1",
+      "ocular_removed_auc_m3",
+      "ocular_removed_delta_auc_m3_minus_b3",
+      "ocular_removed_idi_m3_vs_b3",
+      "ocular_removed_continuous_nri_m3_vs_b3",
+      "ocular_removed_paired_delong_z_m3_vs_b3",
+      "ocular_removed_paired_delong_p_m3_vs_b3",
+      "ocular_removed_brier_b3",
+      "ocular_removed_brier_m1",
+      "ocular_removed_brier_m3",
+      "ocular_kept_auc_b3",
+      "ocular_kept_auc_m1",
+      "ocular_kept_auc_m3",
+      "ocular_kept_delta_auc_m3_minus_b3",
+      "ocular_kept_idi_m3_vs_b3",
+      "ocular_kept_continuous_nri_m3_vs_b3",
+      "ocular_kept_paired_delong_z_m3_vs_b3",
+      "ocular_kept_paired_delong_p_m3_vs_b3",
+      "ocular_kept_brier_b3",
+      "ocular_kept_brier_m1",
+      "ocular_kept_brier_m3"
+    ],
+    "count_contract": "n_trials_equals_n_recalled_plus_n_not_recalled",
+    "metric_values": "finite_python_float_logical_float64",
+    "balanced_accuracy_allowed": false,
+    "result_category_allowed": false,
+    "condition_discordance_allowed": false
+  },
+  "evaluation_provenance": {
+    "exact_fields": [
+      "evaluator_code_commit",
+      "evaluator_dirty_diff_sha256",
+      "evaluator_package_versions_sha256",
+      "evaluation_command"
+    ],
+    "provided_independently_for_validation": true
+  },
+  "primary_aggregate": {
+    "schema_id": "neuroai-m1-primary-aggregate-v1",
+    "schema_version": "1.0",
+    "condition": "ocular-removed",
+    "estimand": "unweighted_mean_subject_auc_M3_minus_refit_B3",
+    "uncertainty": "95_percentile_subject_bootstrap_interval",
+    "bootstrap": {
+      "unit": "subject",
+      "resamples": 2000,
+      "seed": 0,
+      "interval_percentiles": [2.5, 97.5],
+      "numpy_percentile_method": "linear"
+    },
+    "exact_fields": [
+      "schema_id",
+      "schema_version",
+      "condition",
+      "charter_sha256",
+      "evaluation_contract_sha256",
+      "subject_record_bindings",
+      "aggregator_code_commit",
+      "aggregator_dirty_diff_sha256",
+      "aggregator_package_versions_sha256",
+      "aggregation_command",
+      "n_subjects",
+      "bootstrap_unit",
+      "bootstrap_resamples",
+      "bootstrap_seed",
+      "bootstrap_interval_percentiles",
+      "bootstrap_percentile_method",
+      "mean_delta_auc_m3_minus_b3",
+      "ci_low",
+      "ci_high",
+      "primary_category",
+      "secondary_can_create_positive_path",
+      "equivalence_claim_allowed"
+    ],
+    "string_fields": [
+      "schema_id",
+      "schema_version",
+      "condition",
+      "aggregation_command",
+      "bootstrap_unit",
+      "bootstrap_percentile_method",
+      "primary_category"
+    ],
+    "sha256_fields": [
+      "charter_sha256",
+      "evaluation_contract_sha256",
+      "aggregator_package_versions_sha256"
+    ],
+    "integer_fields": ["n_subjects", "bootstrap_resamples", "bootstrap_seed"],
+    "metric_fields": ["mean_delta_auc_m3_minus_b3", "ci_low", "ci_high"],
+    "subject_binding_exact_fields": ["subject_id", "subject_evaluation_sha256"],
+    "subject_binding_order": "ascending_subject_id",
+    "result_categories": {
+      "positive_increment": "ci_low_gt_0",
+      "adverse_increment": "ci_high_lt_0",
+      "no_detectable_increment__imprecise": "ci_includes_0"
+    },
+    "secondary_can_create_positive_path": false,
+    "equivalence_claim_allowed": false
+  },
+  "common_intersection_aggregate": {
+    "schema_id": "neuroai-m1-common-intersection-aggregate-v1",
+    "schema_version": "1.0",
+    "source_scope": "complete_exact_common_intersection_subject_record_set",
+    "condition_order": ["ocular-removed", "ocular-kept"],
+    "estimand": "unweighted_mean_subject_auc_M3_minus_refit_B3_per_condition_on_exact_common_intersection",
+    "uncertainty": "95_percentile_paired_subject_bootstrap_interval_per_condition",
+    "bootstrap": {
+      "unit": "subject",
+      "paired_condition_resampling": true,
+      "resamples": 2000,
+      "seed": 0,
+      "interval_percentiles": [2.5, 97.5],
+      "numpy_percentile_method": "linear"
+    },
+    "condition_discordance_rule": "sensitivity_modifier_if_point_estimate_sign_or_interval_category_differs",
+    "exact_fields": [
+      "schema_id",
+      "schema_version",
+      "charter_sha256",
+      "evaluation_contract_sha256",
+      "subject_record_bindings",
+      "aggregator_code_commit",
+      "aggregator_dirty_diff_sha256",
+      "aggregator_package_versions_sha256",
+      "aggregation_command",
+      "n_subjects",
+      "bootstrap_unit",
+      "bootstrap_paired_condition_resampling",
+      "bootstrap_resamples",
+      "bootstrap_seed",
+      "bootstrap_interval_percentiles",
+      "bootstrap_percentile_method",
+      "ocular_removed_mean_delta_auc_m3_minus_b3",
+      "ocular_removed_ci_low",
+      "ocular_removed_ci_high",
+      "ocular_removed_category",
+      "ocular_kept_mean_delta_auc_m3_minus_b3",
+      "ocular_kept_ci_low",
+      "ocular_kept_ci_high",
+      "ocular_kept_category",
+      "condition_discordance_rule",
+      "condition_discordant",
+      "primary_category_unchanged_by_sensitivity",
+      "secondary_can_create_positive_path",
+      "equivalence_claim_allowed",
+      "balanced_accuracy_included"
+    ],
+    "string_fields": [
+      "schema_id",
+      "schema_version",
+      "aggregation_command",
+      "bootstrap_unit",
+      "bootstrap_percentile_method",
+      "ocular_removed_category",
+      "ocular_kept_category",
+      "condition_discordance_rule"
+    ],
+    "sha256_fields": [
+      "charter_sha256",
+      "evaluation_contract_sha256",
+      "aggregator_package_versions_sha256"
+    ],
+    "integer_fields": ["n_subjects", "bootstrap_resamples", "bootstrap_seed"],
+    "metric_fields": [
+      "ocular_removed_mean_delta_auc_m3_minus_b3",
+      "ocular_removed_ci_low",
+      "ocular_removed_ci_high",
+      "ocular_kept_mean_delta_auc_m3_minus_b3",
+      "ocular_kept_ci_low",
+      "ocular_kept_ci_high"
+    ],
+    "boolean_fields": [
+      "bootstrap_paired_condition_resampling",
+      "condition_discordant",
+      "primary_category_unchanged_by_sensitivity",
+      "secondary_can_create_positive_path",
+      "equivalence_claim_allowed",
+      "balanced_accuracy_included"
+    ],
+    "subject_binding_exact_fields": [
+      "subject_id",
+      "common_intersection_subject_evaluation_sha256"
+    ],
+    "subject_binding_order": "ascending_subject_id",
+    "result_categories": {
+      "positive_increment": "ci_low_gt_0",
+      "adverse_increment": "ci_high_lt_0",
+      "no_detectable_increment__imprecise": "ci_includes_0"
+    },
+    "primary_category_unchanged_by_sensitivity": true,
+    "secondary_can_create_positive_path": false,
+    "equivalence_claim_allowed": false,
+    "balanced_accuracy_included": false
+  },
+  "aggregate_provenance": {
+    "exact_fields": [
+      "aggregator_code_commit",
+      "aggregator_dirty_diff_sha256",
+      "aggregator_package_versions_sha256",
+      "aggregation_command"
+    ],
+    "provided_independently_for_validation": true
+  },
+  "result_record_storage_bundle": {
+    "schema_id": "neuroai-m1-evaluation-result-record-bundle-v1",
+    "schema_version": "1.0",
+    "atomic_publication": "temporary_directory_fsync_then_atomic_noreplace_rename",
+    "exact_files": ["record.json", "bundle.json", "bundle.sha256"],
+    "record_kinds": {
+      "subject_evaluation": {
+        "contract_key": "subject_record",
+        "schema_id": "neuroai-m1-subject-evaluation-v1"
+      },
+      "common_intersection_subject_evaluation": {
+        "contract_key": "common_intersection_subject_record",
+        "schema_id": "neuroai-m1-common-intersection-subject-evaluation-v1"
+      },
+      "primary_aggregate": {
+        "contract_key": "primary_aggregate",
+        "schema_id": "neuroai-m1-primary-aggregate-v1"
+      },
+      "common_intersection_aggregate": {
+        "contract_key": "common_intersection_aggregate",
+        "schema_id": "neuroai-m1-common-intersection-aggregate-v1"
+      }
+    },
+    "record_fields_source": "resolved_evaluation_contract_exact_fields",
+    "balanced_accuracy_policy": "D42_A_deliberately_omitted_no_threshold_or_fields",
+    "record_format": "canonical_finite_JSON_object",
+    "bundle_manifest_exact_fields": [
+      "schema_id",
+      "schema_version",
+      "bundle_contract_sha256",
+      "evaluation_contract_sha256",
+      "record_kind",
+      "record_schema_id",
+      "record_schema_version",
+      "record_json_sha256"
+    ],
+    "exact_regular_files_no_symlinks": true,
+    "external_bundle_sha256_required_on_readback": true,
+    "complete_logical_revalidation_required_on_readback": true,
+    "real_publication_allowed_before_final_readiness": false,
+    "failure_staging_policy": "retain_for_evidence_no_automatic_deletion"
+  },
+  "canonicalization": {
+    "encoding": "utf-8",
+    "object_keys": "recursive_lexicographic_sort",
+    "nonfinite_values": "forbidden",
+    "final_newline": true,
+    "digest": "sha256"
+  },
+  "validator_tests": [
+    "valid_prediction_table_required_before_metrics",
+    "all_canonical_rows_passed_without_filtering",
+    "prediction_table_digest_binding",
+    "evaluator_code_and_environment_binding",
+    "exact_closed_subject_record",
+    "counts_reconcile",
+    "complete_metric_recomputation",
+    "deterministic_metric_sensitive_digest",
+    "pending_D26_and_D29_fail_closed",
+    "D42_A_balanced_accuracy_deliberately_absent",
+    "complete_common_intersection_table_required_before_paired_subject_metrics",
+    "all_common_rows_passed_to_both_condition_metric_sets",
+    "closed_common_intersection_subject_record",
+    "common_intersection_subject_record_complete_recomputation_and_digest",
+    "common_intersection_subject_record_pending_D26_and_D29_fail_closed",
+    "common_intersection_subject_record_forbids_categories_and_discordance",
+    "common_intersection_subject_record_rejects_contract_drift",
+    "common_intersection_subject_record_rejects_one_class_intersection",
+    "exact_primary_subject_record_set_and_digest_bindings",
+    "unweighted_subject_mean_not_trial_weighted",
+    "seeded_subject_bootstrap_matches_independent_recomputation",
+    "interval_only_result_categories",
+    "sensitivity_condition_cannot_enter_primary_aggregate",
+    "complete_primary_aggregate_recomputation_and_digest",
+    "exact_common_intersection_subject_record_set_and_digest_bindings",
+    "paired_subject_bootstrap_indices_shared_by_conditions",
+    "common_intersection_unweighted_subject_means_not_trial_weighted",
+    "common_intersection_interval_only_categories",
+    "condition_discordance_opposite_sign_or_category_difference",
+    "condition_sensitivity_cannot_change_primary_or_rescue_result",
+    "common_intersection_aggregate_forbids_balanced_accuracy",
+    "complete_common_intersection_aggregate_recomputation_and_digest",
+    "result_record_storage_contract_matches_implementation",
+    "all_four_result_record_kinds_round_trip_through_full_recomputation",
+    "result_record_bundle_external_member_schema_and_immutability_authentication",
+    "result_record_bundle_rejects_duplicate_key_and_noncanonical_JSON",
+    "result_record_bundle_rejects_consistently_rehashed_logical_drift",
+    "result_record_storage_binds_D42_A_omission_without_metric_fields"
+  ],
+  "implementation": {
+    "module": "src/peers/m1_evaluation.py",
+    "storage_module": "src/peers/m1_result_storage.py",
+    "tests": "tests/test_m1_predictions.py",
+    "common_intersection_aggregate_tests": "tests/test_m1_condition_aggregate.py",
+    "data_scope": "synthetic_only",
+    "real_metrics_calculated": false,
+    "subject_consumer_implemented": true,
+    "common_intersection_subject_consumer_implemented": true,
+    "aggregate_consumer_implemented": true,
+    "common_intersection_aggregate_consumer_implemented": true,
+    "result_record_bundle_implemented": true,
+    "storage_format_selected": true,
+    "deferred_until_frozen_real_inputs": [
+      "real_prediction_bundle_readback",
+      "independent_real_evaluator_provenance",
+      "real_subject_record_recomputation",
+      "real_result_record_bundle_publication_and_readback"
+    ]
+  },
+  "forbidden_actions": [
+    "change_resolved_D26_or_D29",
+    "add_or_compute_balanced_accuracy_without_versioned_charter_replan",
+    "accept_arbitrary_arrays_without_a_validated_prediction_table",
+    "filter_rows_by_metric_or_observed_performance",
+    "inspect_real_M1_or_M3_outcomes"
+  ]
+}

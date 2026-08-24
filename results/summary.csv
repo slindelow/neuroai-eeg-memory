@@ -1,0 +1,7 @@
+measure,condition,estimate,interval_low,interval_high,n_participants,status
+mean_auc_b3,ocular_removed,0.6245389973,,,38,descriptive
+mean_auc_m1,ocular_removed,0.5196518269,,,38,descriptive
+mean_auc_m3,ocular_removed,0.6201590237,,,38,descriptive
+mean_delta_auc_m3_minus_b3,ocular_removed,-0.0043799736,-0.0121122622,0.0032501280,38,no_detectable_increment_imprecise
+mean_delta_auc_m3_minus_b3_common_trials,ocular_removed,-0.0037506867,-0.0115768941,0.0041284984,38,sensitivity
+mean_delta_auc_m3_minus_b3_common_trials,ocular_kept,-0.0155326526,-0.0375077265,-0.0006398252,38,sensitivity_adverse

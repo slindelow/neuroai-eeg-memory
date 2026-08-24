@@ -1,0 +1,27 @@
+[project]
+name = "neuroai"
+version = "0.1.0"
+description = "Leakage-safe EEG subsequent-memory prediction with held-session evaluation"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "autoreject>=0.4.4",
+    "matplotlib>=3.11.1",
+    "mne>=1.12.1",
+    "numpy>=2.5.1",
+    "pandas>=3.0.5",
+    "pymatreader>=1.2.3",
+    "pypdf>=6.15.0",
+    "scikit-learn>=1.9.0",
+    "scipy>=1.18.0",
+    "wordfreq>=3.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

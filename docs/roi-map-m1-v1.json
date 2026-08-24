@@ -1,0 +1,77 @@
+{
+  "map_id": "neuroai-m1-roi-v1",
+  "version": "1.0",
+  "status": "frozen_pre_result_technical_contract",
+  "coordinate_space": "sensor_space",
+  "montage": "GSN-HydroCel-129",
+  "reference_alias": {
+    "source": "E129",
+    "stored_as": "Cz"
+  },
+  "translation_claim": "Project-specific HydroCel-129 implementation of a published eight-factor scalp scheme; not an exact replication of the Weidemann, Long, or Katerman sensor maps.",
+  "roi_order": ["LAI", "LAS", "LPI", "LPS", "RAI", "RAS", "RPI", "RPS"],
+  "rois": {
+    "LAI": {
+      "label": "left anterior inferior",
+      "ten_ten_sites": ["FP1", "F7", "F5", "FT7", "FC5"],
+      "channels": ["E22", "E33", "E27", "E34", "E28"]
+    },
+    "LAS": {
+      "label": "left anterior superior",
+      "ten_ten_sites": ["AF3", "F3", "F1", "FC3", "FC1"],
+      "channels": ["E23", "E24", "E19", "E29", "E13"]
+    },
+    "LPI": {
+      "label": "left posterior inferior",
+      "ten_ten_sites": ["TP7", "CP5", "P7", "P5", "O1"],
+      "channels": ["E46", "E47", "E58", "E51", "E70"]
+    },
+    "LPS": {
+      "label": "left posterior superior",
+      "ten_ten_sites": ["CP3", "CP1", "P3", "P1", "PO3"],
+      "channels": ["E42", "E37", "E52", "E60", "E67"]
+    },
+    "RAI": {
+      "label": "right anterior inferior",
+      "ten_ten_sites": ["FP2", "F8", "F6", "FT8", "FC6"],
+      "channels": ["E9", "E122", "E123", "E116", "E117"]
+    },
+    "RAS": {
+      "label": "right anterior superior",
+      "ten_ten_sites": ["AF4", "F4", "F2", "FC4", "FC2"],
+      "channels": ["E3", "E124", "E4", "E111", "E112"]
+    },
+    "RPI": {
+      "label": "right posterior inferior",
+      "ten_ten_sites": ["TP8", "CP6", "P8", "P6", "O2"],
+      "channels": ["E102", "E98", "E96", "E97", "E83"]
+    },
+    "RPS": {
+      "label": "right posterior superior",
+      "ten_ten_sites": ["CP4", "CP2", "P4", "P2", "PO4"],
+      "channels": ["E93", "E87", "E92", "E85", "E77"]
+    }
+  },
+  "constraints": {
+    "roi_count": 8,
+    "channels_per_roi": 5,
+    "required_unique_channel_count": 40,
+    "channel_overlap_allowed": false,
+    "missing_channel_policy": "fail_subject_condition",
+    "nearest_neighbor_substitution_allowed": false,
+    "outcome_dependent_change_allowed": false
+  },
+  "sources": {
+    "memory_roi_family": ["Weidemann 2009", "Long 2014", "Katerman 2022"],
+    "exact_ten_ten_template": "Maxfield 2012",
+    "hydrocel_translation": "Luu & Ferree 2005"
+  },
+  "actual_state_verification_2026_08_16": {
+    "epoch_files_inspected_header_only": 232,
+    "unique_ordered_channel_schemas": 1,
+    "channels_per_derivative": 125,
+    "derivatives_missing_required_channels": 0,
+    "excluded_egi_labels": ["E8", "E25", "E126", "E127"],
+    "outcomes_or_model_performance_inspected": false
+  }
+}

@@ -1,0 +1,579 @@
+{
+  "contract_id": "neuroai-m1-manifests-v1",
+  "version": "1.8-frozen",
+  "status": "frozen_pre_result_teach_back_receipt_bound",
+  "depends_on_resolved_scientific_choices": true,
+  "real_manifest_generation_requires": [
+    "final_charter_sha256",
+    "D26_resolved",
+    "D29_resolved",
+    "D42_A_omit_balanced_accuracy",
+    "D44_C_outer_training_selected_C_qualified_meta_predictions",
+    "bounded_preflight_and_capacity_policy_frozen",
+    "roi_map_sha256_valid",
+    "validated_Sofia_protocol_teach_back_receipt"
+  ],
+  "scientific_decision_gates": {
+    "D42": {
+      "pending_gate": "D42_balanced_accuracy_handling",
+      "allowed_resolved_values": [
+        "D42_A_omit_balanced_accuracy",
+        "D42_B_fixed_0_5_threshold",
+        "D42_C_training_only_fitted_threshold"
+      ],
+      "requires_versioned_replan_before_execution": [
+        "D42_C_training_only_fitted_threshold"
+      ]
+    },
+    "D44": {
+      "pending_gate": "D44_M1_hyperparameter_selection_scope",
+      "allowed_resolved_values": [
+        "D44_A_fixed_M1_C",
+        "D44_B_strict_nested_session_selection",
+        "D44_C_outer_training_selected_C_qualified_meta_predictions"
+      ]
+    }
+  },
+  "resolved_scientific_inputs": [
+    "D26_A_strict_inductive",
+    "D29_A_300_to_1600_ms_exact_950_ms_midpoint",
+    "D42_A_omit_balanced_accuracy",
+    "D44_C_outer_training_selected_C_qualified_meta_predictions"
+  ],
+  "D44_C_cross_fit_provenance": {
+    "schema_id": "neuroai-m1-d44-c-cross-fit-provenance-v1",
+    "schema_version": "1.0",
+    "decision": "D44_C_outer_training_selected_C_qualified_meta_predictions",
+    "meta_prediction_claim": "session_out_coefficients_and_transforms_conditional_on_outer_training_selected_C",
+    "selection_scope": "outer_training_wide_inner_session_C_selection_including_meta_prediction_session",
+    "fully_session_cross_fitted_claim_allowed": false,
+    "predicted_session_labels_may_influence_selected_C": true,
+    "outer_test_session_used_for_selection": false,
+    "one_selected_C_shared_by_all_meta_folds": true,
+    "canonical_digest_required": true
+  },
+  "execution_gate_contract": {
+    "preflight": {
+      "candidate_scope": "subjects_technically_eligible_in_both_conditions_before_outcome_access",
+      "workload_sort": [
+        "total_eligible_trials_across_both_conditions_ascending",
+        "total_input_bytes_across_both_conditions_ascending",
+        "subject_id_ascending"
+      ],
+      "selected_roles": {
+        "median": "index_floor_n_minus_1_over_2",
+        "maximum": "last_index"
+      },
+      "distinct_if_possible": true,
+      "conditions": ["ocular-removed", "ocular-kept"],
+      "outcome_metrics_or_interpretation_allowed": false,
+      "required_measurements": [
+        "stage_wall_seconds",
+        "total_wall_seconds",
+        "peak_resident_memory_bytes",
+        "input_bytes",
+        "cache_bytes_written",
+        "disk_available_bytes_before_and_after",
+        "parallel_worker_count",
+        "longest_stage_wall_seconds",
+        "longest_no_progress_seconds",
+        "transient_retry_count",
+        "scaled_full_run_forecast_wall_seconds",
+        "projected_remaining_cache_bytes",
+        "host_safe_memory_floor_bytes"
+      ]
+    },
+    "full_locked_run": {
+      "required_gates": [
+        "validated_preflight_budget_receipt",
+        "Sofia_capacity_go"
+      ],
+      "cutoff_source": "Sofia_selected_current_run_cutoff_recorded_after_preflight",
+      "per_subject_timeout_formula": "2.0_times_maximum_subject_preflight_wall_seconds",
+      "full_run_timeout_formula": "1.3_times_scaled_preflight_forecast_wall_seconds",
+      "effective_deadline": "earlier_of_run_start_plus_full_run_timeout_and_Sofia_cutoff",
+      "transient_retry_limit": 1,
+      "no_progress_abort_formula": "2.0_times_longest_preflight_stage_wall_seconds",
+      "disk_headroom_floor_formula": "1.2_times_projected_remaining_cache_bytes_plus_5_GiB",
+      "memory_floor_source": "host_safe_floor_recorded_in_preflight_receipt_before_full_run",
+      "resume_policy": "atomically_completed_hash_valid_cache_entries_only",
+      "partial_outcome_inspection_allowed": false
+    },
+    "failure": {
+      "on_compute_or_capacity_failure": "remain_IN_PROGRESS",
+      "protocol_weakening_allowed": false,
+      "record_failure_before_replan": true
+    }
+  },
+  "common_envelope_fields": [
+    "schema_id",
+    "schema_version",
+    "manifest_kind",
+    "created_at_utc",
+    "charter_id",
+    "charter_version",
+    "charter_sha256",
+    "roi_map_id",
+    "roi_map_sha256",
+    "code_commit",
+    "dirty_diff_sha256",
+    "generator_command",
+    "source_inventory_sha256",
+    "rows"
+  ],
+  "common_envelope_field_types": {
+    "schema_id": "string",
+    "schema_version": "string",
+    "manifest_kind": "string",
+    "created_at_utc": "timestamp_utc",
+    "charter_id": "string",
+    "charter_version": "string",
+    "charter_sha256": "sha256",
+    "roi_map_id": "string",
+    "roi_map_sha256": "sha256",
+    "code_commit": "git_commit",
+    "dirty_diff_sha256": "sha256_or_null",
+    "generator_command": "string",
+    "source_inventory_sha256": "sha256",
+    "rows": "array[object]"
+  },
+  "allowed_conditions": ["ocular-removed", "ocular-kept"],
+  "binding_fields": [
+    "charter_id",
+    "charter_version",
+    "charter_sha256",
+    "roi_map_id",
+    "roi_map_sha256",
+    "code_commit",
+    "dirty_diff_sha256",
+    "source_inventory_sha256"
+  ],
+  "canonicalization": {
+    "encoding": "utf-8",
+    "format": "json",
+    "object_keys": "recursive_lexicographic_sort",
+    "array_order": "preserved_after_manifest_specific_row_sort",
+    "insignificant_whitespace": false,
+    "final_newline": true,
+    "digest": "sha256_sidecar"
+  },
+  "manifest_bundle": {
+    "layout": ["manifest.json", "manifest.sha256"],
+    "publication": "fsync_files_and_temporary_sibling_directory_then_single_os_native_atomic_noreplace_directory_rename",
+    "destination_policy": "immutable_fail_if_exists",
+    "exclusive_rename_implementations": {
+      "darwin": "renamex_np_RENAME_EXCL",
+      "linux": "renameat2_RENAME_NOREPLACE"
+    },
+    "unsupported_platform_or_filesystem_policy": "fail_closed_without_publication",
+    "ordinary_rename_allowed": false,
+    "sidecar_format": "64_lowercase_sha256_hex_characters_plus_newline",
+    "readback_requires": [
+      "exact_regular_file_set",
+      "duplicate_key_safe_json",
+      "exact_canonical_manifest_bytes",
+      "matching_sidecar_digest",
+      "schema_and_external_bindings"
+    ]
+  },
+  "protocol_teach_back_transcript": {
+    "schema_id": "neuroai-m1-protocol-teach-back-transcript-v1",
+    "schema_version": "1.0",
+    "exact_fields": [
+      "schema_id",
+      "schema_version",
+      "transcript_id",
+      "source_thread_id",
+      "response_owner",
+      "authorship_attestation",
+      "capture_approval_message_id",
+      "messages"
+    ],
+    "message_exact_fields": [
+      "message_id",
+      "role",
+      "topic",
+      "kind",
+      "text",
+      "text_sha256",
+      "in_reply_to_message_id",
+      "disposition"
+    ],
+    "message_hash": "sha256_utf8_exact_text_without_added_newline",
+    "reply_rule": "non_null_in_reply_to_message_id_must_reference_a_prior_message",
+    "accepted_response_rule": "receipt_selects_only_Sofia_owned_accepted_topic_matched_messages",
+    "approval_rule": "Sofia_capture_approval_message_exactly_I_approve_replying_to_advisor_capture_prompt",
+    "correction_rule": "superseded_messages_remain_in_transcript_but_are_not_selected_as_accepted_responses"
+  },
+  "protocol_teach_back_receipt": {
+    "schema_id": "neuroai-m1-protocol-teach-back-v1",
+    "schema_version": "1.1",
+    "receipt_id": "neuroai-m1-v1-protocol-teach-back",
+    "human_gate_id": "Sofia_protocol_teach_back",
+    "created_only_after": [
+      "D26_recorded",
+      "D29_recorded",
+      "D42_recorded",
+      "D44_recorded",
+      "final_charter_sha256_available"
+    ],
+    "exact_fields": [
+      "schema_id",
+      "schema_version",
+      "receipt_id",
+      "human_gate_id",
+      "charter_id",
+      "charter_version",
+      "charter_sha256",
+      "decision_log_sha256",
+      "answered_by",
+      "authorship_attestation",
+      "source_thread_id",
+      "source_transcript_sha256",
+      "capture_approval_message_id",
+      "response_message_ids",
+      "recorded_at_utc",
+      "responses",
+      "responses_sha256",
+      "advisor_review"
+    ],
+    "response_topics": [
+      "inputs_and_outcome",
+      "D26_generalization_target",
+      "D29_window_midpoint_and_800ms_exclusion",
+      "nested_session_cv_and_cross_fitting",
+      "paired_trial_set_and_primary_estimand_condition",
+      "leakage_controls",
+      "exploratory_claim_ceiling_and_R4_disclosure",
+      "failure_mode",
+      "rejected_alternative_and_tradeoff"
+    ],
+    "authorship": {
+      "answered_by": "Sofia Lindelow",
+      "authorship_attestation": "verbatim_Sofia_owned_words",
+      "advisor_may_supply_answers": false
+    },
+    "bindings": [
+      "charter_id",
+      "charter_version",
+      "charter_sha256",
+      "decision_log_sha256",
+      "source_thread_id",
+      "source_transcript_sha256",
+      "capture_approval_message_id",
+      "response_message_ids",
+      "responses_sha256"
+    ],
+    "advisor_review_exact_fields": [
+      "reviewed_at_utc",
+      "reviewed_by_role",
+      "topic_verdicts",
+      "overall_verdict",
+      "open_revision_requests"
+    ],
+    "acceptance_requires": [
+      "all_response_topics_have_reviewable_nonplaceholder_text",
+      "transcript_message_hashes_recompute_and_replies_point_backward",
+      "capture_approval_is_explicitly_Sofia_owned",
+      "responses_derive_exactly_from_selected_Sofia_owned_accepted_messages",
+      "responses_sha256_recomputes",
+      "decision_log_and_source_transcript_hashes_match_external_expected_values",
+      "review_does_not_predate_responses",
+      "reviewed_by_role_is_scientific_advisor",
+      "every_topic_verdict_is_pass",
+      "overall_verdict_is_pass",
+      "open_revision_requests_is_empty"
+    ],
+    "machine_claim_limit": "proves_schema_completeness_and_provenance_not_genuine_comprehension",
+    "blank_worksheet": "docs/protocol-teach-back-m1-v1.md"
+  },
+  "manifest_schemas": {
+    "cohort": {
+      "schema_id": "neuroai-m1-cohort-v1",
+      "schema_version": "1.0",
+      "row_key": ["subject_id", "condition"],
+      "required_fields": [
+        "subject_id", "condition", "sessions_present",
+        "sessions_technically_eligible", "outer_train_sessions", "outer_test_session",
+        "eligible", "eligibility_reason_code", "per_session_counts",
+        "source_sha256s", "channel_schema_id"
+      ],
+      "field_types": {
+        "subject_id": "string",
+        "condition": "string",
+        "sessions_present": "array[integer]",
+        "sessions_technically_eligible": "array[integer]",
+        "outer_train_sessions": "array[integer]",
+        "outer_test_session": "integer_or_null",
+        "eligible": "boolean",
+        "eligibility_reason_code": "string",
+        "per_session_counts": "object",
+        "source_sha256s": "object[sha256]",
+        "channel_schema_id": "string"
+      },
+      "eligibility_reason_codes": [
+        "ELIGIBLE", "TOO_FEW_SESSIONS", "MISSING_DERIVATIVE", "UNREADABLE_METADATA",
+        "CHANNEL_SCHEMA_MISMATCH", "NONFINITE_INPUT", "TRIAL_EPOCH_KEY_MISMATCH",
+        "SINGLE_CLASS_OUTER_TRAIN", "SINGLE_CLASS_OUTER_TEST", "SINGLE_CLASS_INNER_FOLD"
+      ]
+    },
+    "trial": {
+      "schema_id": "neuroai-m1-trial-v1",
+      "schema_version": "1.0",
+      "row_key": ["subject_id", "session", "trial", "item_num", "condition"],
+      "canonical_trial_key": ["subject_id", "session", "trial", "item_num"],
+      "required_fields": [
+        "subject_id", "session", "trial", "item_num", "condition", "serial_position",
+        "list_number", "onset_s", "recalled", "source_events_id", "source_events_sha256",
+        "derivative_id", "derivative_sha256", "epoch_row", "included",
+        "exclusion_reason_code", "condition_survivor", "outer_role"
+      ],
+      "field_types": {
+        "subject_id": "string",
+        "session": "integer",
+        "trial": "integer",
+        "item_num": "integer",
+        "condition": "string",
+        "serial_position": "integer",
+        "list_number": "integer",
+        "onset_s": "number",
+        "recalled": "boolean",
+        "source_events_id": "string",
+        "source_events_sha256": "sha256",
+        "derivative_id": "string",
+        "derivative_sha256": "sha256",
+        "epoch_row": "integer",
+        "included": "boolean",
+        "exclusion_reason_code": "string",
+        "condition_survivor": "boolean",
+        "outer_role": "string"
+      },
+      "outer_role_values": ["train", "test", "excluded"]
+    },
+    "inner_fold": {
+      "schema_id": "neuroai-m1-inner-fold-v1",
+      "schema_version": "1.0",
+      "row_key": ["subject_id", "condition", "inner_fold_id"],
+      "required_fields": [
+        "subject_id", "condition", "inner_fold_id", "fit_sessions", "validation_session",
+        "outer_test_session", "fit_class_counts", "validation_class_counts",
+        "fit_keys_sha256", "validation_keys_sha256", "eligible", "feasibility_reason_code"
+      ],
+      "field_types": {
+        "subject_id": "string",
+        "condition": "string",
+        "inner_fold_id": "string",
+        "fit_sessions": "array[integer]",
+        "validation_session": "integer",
+        "outer_test_session": "integer",
+        "fit_class_counts": "object",
+        "validation_class_counts": "object",
+        "fit_keys_sha256": "sha256",
+        "validation_keys_sha256": "sha256",
+        "eligible": "boolean",
+        "feasibility_reason_code": "string"
+      },
+      "feasibility_reason_codes": ["ELIGIBLE", "SINGLE_CLASS_INNER_FOLD"]
+    },
+    "cross_condition_intersection": {
+      "schema_id": "neuroai-m1-cross-condition-intersection-v1",
+      "schema_version": "1.0",
+      "row_key": ["subject_id", "session", "trial", "item_num"],
+      "required_fields": [
+        "subject_id", "session", "trial", "item_num", "ocular_removed_row_sha256",
+        "ocular_kept_row_sha256", "recalled", "event_provenance_sha256",
+        "ocular_removed_epoch_row", "ocular_kept_epoch_row"
+      ],
+      "field_types": {
+        "subject_id": "string",
+        "session": "integer",
+        "trial": "integer",
+        "item_num": "integer",
+        "ocular_removed_row_sha256": "sha256",
+        "ocular_kept_row_sha256": "sha256",
+        "recalled": "boolean",
+        "event_provenance_sha256": "sha256",
+        "ocular_removed_epoch_row": "integer",
+        "ocular_kept_epoch_row": "integer"
+      }
+    },
+    "attrition": {
+      "schema_id": "neuroai-m1-attrition-v1",
+      "schema_version": "1.2",
+      "row_key": ["condition", "flow_id", "stage_index"],
+      "required_fields": [
+        "condition", "flow_id", "count_unit", "stage_index", "stage", "input_count",
+        "excluded_by_reason", "survivor_count"
+      ],
+      "field_types": {
+        "condition": "string",
+        "flow_id": "string",
+        "count_unit": "string",
+        "stage_index": "integer",
+        "stage": "string",
+        "input_count": "integer",
+        "excluded_by_reason": "object[integer]",
+        "survivor_count": "integer"
+      },
+      "require_all_conditions": true,
+      "flows": {
+        "trial_analysis": {
+          "count_unit": "trial",
+          "stages": [
+            {
+              "stage_index": 0,
+              "stage": "behavioral_event_filter",
+              "reason_code_order": ["PRACTICE_OR_NONPOSITIVE_TRIAL", "NEGATIVE_SAMPLE"]
+            },
+            {
+              "stage_index": 1,
+              "stage": "condition_technical_survival",
+              "reason_code_order": [
+                "MISSING_DERIVATIVE", "UNREADABLE_METADATA", "CHANNEL_SCHEMA_MISMATCH",
+                "NONFINITE_INPUT"
+              ]
+            },
+            {
+              "stage_index": 2,
+              "stage": "event_epoch_alignment",
+              "reason_code_order": [
+                "AUTOREJECT_DROPPED", "TRIAL_EPOCH_KEY_MISMATCH"
+              ]
+            },
+            {
+              "stage_index": 3,
+              "stage": "eligible_subject_trials",
+              "reason_code_order": [
+                "TOO_FEW_SESSIONS", "SINGLE_CLASS_OUTER_TRAIN", "SINGLE_CLASS_OUTER_TEST",
+                "SINGLE_CLASS_INNER_FOLD"
+              ]
+            }
+          ]
+        },
+        "subject_condition_eligibility": {
+          "count_unit": "subject_condition",
+          "stages": [
+            {
+              "stage_index": 0,
+              "stage": "candidate_subject_conditions",
+              "reason_code_order": []
+            },
+            {
+              "stage_index": 1,
+              "stage": "technical_session_eligibility",
+              "reason_code_order": [
+                "MISSING_DERIVATIVE", "UNREADABLE_METADATA", "CHANNEL_SCHEMA_MISMATCH",
+                "NONFINITE_INPUT", "TRIAL_EPOCH_KEY_MISMATCH"
+              ]
+            },
+            {
+              "stage_index": 2,
+              "stage": "minimum_complete_sessions",
+              "reason_code_order": ["TOO_FEW_SESSIONS"]
+            },
+            {
+              "stage_index": 3,
+              "stage": "outer_partition_class_feasibility",
+              "reason_code_order": ["SINGLE_CLASS_OUTER_TRAIN", "SINGLE_CLASS_OUTER_TEST"]
+            },
+            {
+              "stage_index": 4,
+              "stage": "inner_fold_class_feasibility",
+              "reason_code_order": ["SINGLE_CLASS_INNER_FOLD"]
+            }
+          ]
+        },
+        "cross_condition_sensitivity": {
+          "count_unit": "trial",
+          "input_binding": {"flow_id": "trial_analysis", "stage_index": 3},
+          "stages": [
+            {
+              "stage_index": 0,
+              "stage": "cross_condition_intersection",
+              "reason_code_order": ["ABSENT_FROM_OTHER_CONDITION"]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "forbidden_field_fragments": [
+    "prediction", "probability", "prob_", "auc", "idi", "nri", "brier",
+    "balanced_accuracy", "coefficient", "selected_hyperparameter", "model_rank",
+    "positive_increment", "adverse_increment"
+  ],
+  "validator_tests": [
+    "canonical_determinism",
+    "duplicate_key_rejection",
+    "strict_event_epoch_alignment",
+    "highest_eligible_session_outer_split",
+    "inner_session_fold_disjointness_and_completeness",
+    "two_class_feasibility_fixed_reason_codes",
+    "exact_cross_condition_intersection",
+    "attrition_count_conservation",
+    "unknown_and_forbidden_field_rejection",
+    "source_charter_code_and_digest_tamper_detection",
+    "pending_scientific_gates_and_invalid_roi_map_fail_closed",
+    "future_prediction_keys_equal_locked_survivor_keys",
+    "target_subject_outcome_perturbation_does_not_change_own_memorability_features"
+  ],
+  "verified_preconditions": {
+    "F17_memorability_reference_exclusion": {
+      "test_file": "tests/test_baselines.py",
+      "synthetic_only": true,
+      "requirements": [
+        "exact_target_excluded_word_counts_and_smoothing_prior",
+        "target_outcome_perturbation_invariance",
+        "single_participant_reference_fails_closed"
+      ]
+    }
+  },
+  "validator_implementation": {
+    "module": "src/peers/m1_manifests.py",
+    "tests": "tests/test_m1_manifests.py",
+    "data_scope": "synthetic_only",
+    "real_manifests_generated": false,
+    "implemented": [
+      "duplicate_key_safe_json_loading",
+      "finite_closed_typed_schemas",
+      "forbidden_performance_and_model_fields",
+      "canonical_rows_bytes_and_sha256",
+      "exact_schema_id_and_version",
+      "external_charter_roi_code_inventory_bindings",
+      "duplicate_manifest_and_included_epoch_identities",
+      "highest_session_outer_split",
+      "inner_session_disjointness_and_completeness",
+      "two_class_inner_fold_feasibility",
+      "count_unit_safe_multi_stage_attrition_conservation",
+      "roi_charter_membership_and_overlap_binding",
+      "exact_canonical_key_set_alignment",
+      "cross_condition_intersection_and_provenance_recomputation",
+      "paired_B3_M1_M3_prediction_key_equality",
+      "first_level_B3_M1_cross_fit_key_and_fold_hash_provenance",
+      "D44_C_M1_selection_session_key_fold_and_selected_C_provenance",
+      "D44_C_qualified_claim_and_outer_test_exclusion",
+      "race_safe_atomic_immutable_manifest_bundle_write_and_readback",
+      "provenance_bound_protocol_teach_back_transcript_and_receipt",
+      "resolved_D26_D29_D42_D44_and_teach_back_hash_gates"
+    ],
+    "deferred_until_frozen_real_inputs": [
+      "real_event_epoch_key_extraction_and_readback",
+      "real_cross_condition_manifest_readback",
+      "real_multi_stage_attrition_manifest_generation_and_readback",
+      "real_prediction_table_readback",
+      "real_manifest_bundle_generation_and_source_reconciliation",
+      "real_D26_transform_fit_key_provenance"
+    ],
+    "identity_digests": {
+      "trial_row_sha256": "sha256_of_complete_trial_row_as_compact_sorted_key_UTF8_JSON_plus_newline",
+      "trial_key_set_sha256": "sha256_of_sorted_duplicate_free_canonical_trial_key_objects_as_compact_sorted_key_UTF8_JSON_plus_newline",
+      "event_provenance_sha256": "sha256_of_canonical_trial_key_source_events_id_and_source_events_sha256_as_compact_sorted_key_UTF8_JSON_plus_newline"
+    }
+  },
+  "forbidden_actions": [
+    "generate_real_manifests_before_charter_freeze",
+    "fit_real_data_model",
+    "calculate_or_inspect_held_out_M1_or_M3_performance",
+    "change_resolved_D26_D29_D42_or_D44_in_validator"
+  ]
+}

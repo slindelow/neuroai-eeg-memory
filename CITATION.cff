@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite this repository and the PEERS dataset."
+title: "NeuroAI: Leakage-safe EEG subsequent-memory prediction"
+type: software
+authors:
+  - family-names: Lindelow
+    given-names: Sofia
+year: 2026
+license: MIT
+repository-code: "https://github.com/slindelow/neuroai-eeg-memory"
+keywords:
+  - EEG
+  - subsequent memory
+  - machine learning
+  - cognitive neuroscience
+  - reproducibility
