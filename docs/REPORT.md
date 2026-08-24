@@ -11,6 +11,10 @@ studied word, build a fair non-EEG comparator, engineer an interpretable EEG rep
 prevent several forms of leakage, compare the models on identical trials, and preserve enough
 provenance to reproduce the result.
 
+My role was to own the research question, scientific decisions, protocol teach-backs, and
+interpretation. I used AI coding tools to assist with implementation, tests, and documentation,
+then reviewed the scientific boundaries and traced them to the relevant source, contract, or test.
+
 The scientific question was whether EEG recorded while a participant studied a word added
 held-session predictive information about later immediate free recall beyond what the word and its
 experimental position already predicted.
@@ -108,10 +112,10 @@ window followed the closest item-level PEERS-family spectral precedent while exc
 sensory interval and limiting the model's dimensionality. It omitted 0 to 300 ms and 1600 to
 2000 ms, which may also contain useful information.
 
-The eight frequency values were log-spaced from 2 to 100 Hz. The 128-channel montage was reduced
-to eight symmetric sensor-space groups. These groups were a reproducible dimensionality-reduction
-translation, not an exact replication of published sensor membership and not a claim about
-cortical sources.
+The eight frequency values were log-spaced from 2 to 100 Hz. The HydroCel-129 recording montage
+was reduced to eight symmetric sensor-space groups. These groups were a reproducible
+dimensionality-reduction translation, not an exact replication of published sensor membership and
+not a claim about cortical sources.
 
 ![Exploratory spectral subsequent-memory contrast](assets/spectral_sme_ocular-removed.png)
 
@@ -122,8 +126,9 @@ boundary, but it does not turn same-cohort feature development into confirmation
 
 Primary methodological sources included item-level PEERS spectral work by
 [Weidemann and Kahana](https://doi.org/10.1037/xlm0000966), subsequent-memory spectral analyses by
-[Long and colleagues](https://doi.org/10.1016/j.neuroimage.2014.07.019), and PEERS spectral
-subsequent-memory work by [Katerman and colleagues](https://doi.org/10.7554/eLife.72589).
+[Long and colleagues](https://doi.org/10.1016/j.neuroimage.2013.08.052), and PEERS free-recall
+retrieval spectral work by
+[Katerman and colleagues](https://doi.org/10.1016/j.neuroimage.2021.118748).
 
 Implementation:
 
@@ -237,6 +242,10 @@ relationships instead of trusting console output.
 The full analysis was then reproduced from a fresh root. The first and reproduced runs matched on
 trial keys, labels, features, probabilities, selected models, metrics, participant records, and
 aggregate results.
+
+The public [aggregate provenance record](../results/provenance.json) preserves the frozen code,
+verified run, reproduction comparison, and source result digests without exposing participant
+data or local execution paths.
 
 Implementation:
 

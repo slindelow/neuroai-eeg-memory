@@ -1660,18 +1660,14 @@ def validate_protocol_teach_back_receipt(
         raise ManifestValidationError("protocol review has open revision requests")
 
 
-def assert_generation_ready(
+def assert_scientific_contract_ready(
     charter: dict[str, Any],
     roi_map: dict[str, Any],
     contract: dict[str, Any],
     *,
-    protocol_teach_back_receipt: Mapping[str, Any] | None,
-    protocol_teach_back_transcript: Mapping[str, Any] | None,
     final_charter_sha256: str | None,
-    decision_log_sha256: str | None,
-    source_transcript_sha256: str | None,
 ) -> None:
-    """Fail closed until every human/freeze gate required for real manifests is resolved."""
+    """Fail closed unless the frozen scientific manifest contract is internally valid."""
     validate_roi_binding(charter, roi_map)
     pending_gates = charter.get("pending_human_gates")
     if (
@@ -1795,6 +1791,38 @@ def assert_generation_ready(
         raise ManifestValidationError("final_charter_sha256 must be a SHA-256")
     if canonical_document_sha256(charter) != final_charter_sha256:
         raise ManifestValidationError("final charter canonical digest mismatch")
+    if set(contract.get("real_manifest_generation_requires", [])) != {
+        "final_charter_sha256",
+        "D26_resolved",
+        "D29_resolved",
+        "D42_A_omit_balanced_accuracy",
+        "D44_C_outer_training_selected_C_qualified_meta_predictions",
+        "bounded_preflight_and_capacity_policy_frozen",
+        "roi_map_sha256_valid",
+        "validated_Sofia_protocol_teach_back_receipt",
+    }:
+        raise ManifestValidationError("manifest generation requirements drifted from the contract")
+
+
+def assert_generation_ready(
+    charter: dict[str, Any],
+    roi_map: dict[str, Any],
+    contract: dict[str, Any],
+    *,
+    protocol_teach_back_receipt: Mapping[str, Any] | None,
+    protocol_teach_back_transcript: Mapping[str, Any] | None,
+    final_charter_sha256: str | None,
+    decision_log_sha256: str | None,
+    source_transcript_sha256: str | None,
+) -> None:
+    """Fail closed until scientific and private human execution gates are resolved."""
+    assert_scientific_contract_ready(
+        charter,
+        roi_map,
+        contract,
+        final_charter_sha256=final_charter_sha256,
+    )
+    pending_gates = charter["pending_human_gates"]
     if any(
         "teach_back" in gate for gate in pending_gates
     ) and protocol_teach_back_receipt is None:
@@ -1809,14 +1837,3 @@ def assert_generation_ready(
         transcript=protocol_teach_back_transcript,
         charter=charter,
     )
-    if set(contract.get("real_manifest_generation_requires", [])) != {
-        "final_charter_sha256",
-        "D26_resolved",
-        "D29_resolved",
-        "D42_A_omit_balanced_accuracy",
-        "D44_C_outer_training_selected_C_qualified_meta_predictions",
-        "bounded_preflight_and_capacity_policy_frozen",
-        "roi_map_sha256_valid",
-        "validated_Sofia_protocol_teach_back_receipt",
-    }:
-        raise ManifestValidationError("manifest generation requirements drifted from the contract")

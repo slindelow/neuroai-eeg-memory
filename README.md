@@ -2,7 +2,7 @@
 
 ### Building a leakage-safe EEG memory prediction pipeline from real data
 
-I built NeuroAI to learn how a complete computational neuroscience analysis works in practice,
+I developed NeuroAI to learn how a complete computational neuroscience analysis works in practice,
 from defining one prediction row to validating the final model on an unseen recording session.
 The project uses real free-recall EEG data from the Penn Electrophysiology of Encoding and
 Retrieval Study, or PEERS.
@@ -11,6 +11,10 @@ The question was whether EEG recorded while a participant studied a word added p
 information about later recall beyond what the word and its experimental position already
 predicted. The result was secondary to the main challenge: building a valid behavioral baseline,
 an interpretable EEG model, a leakage-safe combined model, and a reproducible evaluation system.
+
+My role was to own the research question, scientific decisions, protocol teach-backs, and
+interpretation. I used AI coding tools to assist with implementation, tests, and documentation,
+then reviewed the scientific boundaries and traced them to the relevant source, contract, or test.
 
 ![Behavioral, EEG, and combined model pipeline](docs/assets/neuroai-methods-pipeline.png)
 
@@ -137,6 +141,11 @@ uv run pytest -q
 Set `NEUROAI_DATA_ROOT` to a local PEERS data directory to run the data-dependent integration
 checks and analysis scripts. See [GETTING_STARTED.md](GETTING_STARTED.md) for the data layout and
 workflow.
+
+The aggregate result table is accompanied by a
+[public provenance record](results/provenance.json) that binds it to the frozen scientific code,
+verified run, reproduction comparison, and source result records without exposing participant
+data or local execution paths.
 
 ## Scientific boundary
 

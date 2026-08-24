@@ -28,7 +28,7 @@ from peers.m1_manifests import (
     _fsync_directory,
     _rename_directory_noreplace,
     _write_fsynced,
-    assert_generation_ready,
+    assert_scientific_contract_ready,
     canonical_document_sha256,
     canonical_row_sha256,
     canonical_trial_key,
@@ -183,8 +183,17 @@ def _load_and_verify_readiness(repo_root: Path) -> tuple[dict[str, Any], ...]:
     charter = load_json_unique(docs / "analysis-charter-m1-v1.json")
     roi_map = load_json_unique(docs / "roi-map-m1-v1.json")
     contract = load_json_unique(docs / "m1-manifest-contracts.json")
-    if not charter["status"].startswith("frozen"):
-        raise RealManifestGenerationError("analysis charter must be frozen")
+    try:
+        assert_scientific_contract_ready(
+            charter,
+            roi_map,
+            contract,
+            final_charter_sha256=canonical_document_sha256(charter),
+        )
+    except ManifestValidationError as error:
+        raise RealManifestGenerationError(
+            f"public scientific manifest contract is not ready: {error}"
+        ) from error
     if not roi_map["status"].startswith("frozen"):
         raise RealManifestGenerationError("ROI map must be frozen")
     return charter, roi_map, contract

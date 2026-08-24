@@ -1,0 +1,12 @@
+{
+  "schema_version": "neuroai_public_result_provenance_v1",
+  "scientific_classification": "exploratory",
+  "frozen_scientific_commit": "62b99f790ec1cb7888f8d0899f816b47779498a3",
+  "verified_run_index_sha256": "a4d1e14637bd91b91e1e5dc7087cf51729ca90f1e2d306103091df03fcf38c75",
+  "independent_verifier_receipt_sha256": "6bf86b6117308213a002fcedec1bdf45a538db2a89cf965165b885fe92b1f402",
+  "clean_reproduction_equality_receipt_sha256": "c557d33e55f3fad318af17d005b730b50b18679959a12787145bb762f0ab6c5d",
+  "primary_aggregate_record_sha256": "e9c1fc58bc065c0f9d446436ae86df30fe4319f8aa0f2a224265f5d85c6eae57",
+  "condition_sensitivity_record_sha256": "5dddfa08e75aba63896c1f546326a3d4f3086c4282556e3c4ff527fae8cd6e7f",
+  "summary_csv_sha256": "a7151cd497f1aa4fbf2bdd168f883eef9d119792b9f7cf079953e4dc1df9f4b5",
+  "public_release_note": "The public repository preserves aggregate values and digest bindings. Raw EEG, participant predictions, manifests, local paths, and private execution receipts are not redistributed. Public-only adaptations remove personal teach-back receipt loading while retaining fail-closed validation of the frozen scientific contract."
+}

@@ -1,6 +1,7 @@
 """Synthetic integration tests for outcome-blind real-manifest extraction."""
 
 from copy import deepcopy
+import json
 from pathlib import Path
 
 import mne
@@ -11,6 +12,7 @@ import pytest
 from peers.events import build_trial_table, load_events
 from peers.m1_manifest_generation import (
     RealManifestGenerationError,
+    _load_and_verify_readiness,
     _run_index,
     build_real_manifest_documents,
     load_real_manifest_run,
@@ -29,6 +31,57 @@ CHANNELS = ("E1", "E2")
 CREATED_AT = "2026-08-17T21:00:00Z"
 COMMAND = "synthetic-outcome-blind-generation"
 COMMIT = "b" * 40
+
+
+def _write_public_contracts(
+    repo_root: Path,
+    *,
+    charter: dict | None = None,
+    roi_map: dict | None = None,
+    contract: dict | None = None,
+) -> None:
+    docs = repo_root / "docs"
+    docs.mkdir(parents=True)
+    documents = {
+        "analysis-charter-m1-v1.json": charter or load_json_unique(CHARTER_PATH),
+        "roi-map-m1-v1.json": roi_map or load_json_unique(ROI_PATH),
+        "m1-manifest-contracts.json": contract or load_json_unique(CONTRACT_PATH),
+    }
+    for name, document in documents.items():
+        (docs / name).write_text(
+            json.dumps(document, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
+
+def test_public_readiness_accepts_frozen_scientific_contract_without_private_receipts(
+    tmp_path: Path,
+) -> None:
+    _write_public_contracts(tmp_path)
+
+    charter, roi_map, contract = _load_and_verify_readiness(tmp_path)
+
+    assert charter["scientific_decisions"]["D26"] == "D26_A_strict_inductive"
+    assert roi_map["status"].startswith("frozen")
+    assert contract["scientific_decision_gates"]["D44"]["allowed_resolved_values"]
+
+
+def test_public_readiness_rejects_scientific_decision_drift(tmp_path: Path) -> None:
+    charter = load_json_unique(CHARTER_PATH)
+    charter["features"]["normalization"]["held_session_distribution_access"] = True
+    _write_public_contracts(tmp_path, charter=charter)
+
+    with pytest.raises(RealManifestGenerationError, match="D26 strict-inductive"):
+        _load_and_verify_readiness(tmp_path)
+
+
+def test_public_readiness_rejects_roi_binding_drift(tmp_path: Path) -> None:
+    roi_map = load_json_unique(ROI_PATH)
+    roi_map["rois"][roi_map["roi_order"][0]]["channels"][0] = "E128"
+    _write_public_contracts(tmp_path, roi_map=roi_map)
+
+    with pytest.raises(RealManifestGenerationError, match="ROI channels do not match"):
+        _load_and_verify_readiness(tmp_path)
 
 
 def _write_events(path: Path, subject: str, session: int) -> None:
