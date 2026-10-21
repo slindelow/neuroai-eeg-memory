@@ -1,5 +1,16 @@
 # NeuroAI
 
+On public PEERS data (38 participants, held-session evaluation), study-period EEG did not add
+detectable recall prediction beyond a behavioral baseline (primary M3 minus B3 delta-AUC -0.0044,
+95% participant-bootstrap interval -0.0121 to 0.0033). The prespecified category and the
+equivalence boundary are in [Result in context](#result-in-context).
+
+This repository does not redistribute raw EEG or participant-level prediction artifacts. The code
+and synthetic contract tests run without those files. Set `NEUROAI_DATA_ROOT` to a local PEERS
+data directory to run the data-dependent integration checks and analysis scripts. See
+[GETTING_STARTED.md](GETTING_STARTED.md) for the data layout, and
+[Run the portable test suite](#run-the-portable-test-suite) for the commands.
+
 ### Building a leakage-safe EEG memory prediction pipeline from real data
 
 I developed NeuroAI to learn how a complete computational neuroscience analysis works in practice,
@@ -130,17 +141,10 @@ held-session predictive information in this exploratory pipeline.
 
 ## Run the portable test suite
 
-This repository does not redistribute raw EEG or participant-level prediction artifacts. The code
-and synthetic contract tests run without those files:
-
 ```bash
 uv sync --locked --all-groups
 uv run pytest -q
 ```
-
-Set `NEUROAI_DATA_ROOT` to a local PEERS data directory to run the data-dependent integration
-checks and analysis scripts. See [GETTING_STARTED.md](GETTING_STARTED.md) for the data layout and
-workflow.
 
 The aggregate result table is accompanied by a
 [public provenance record](results/provenance.json) that binds it to the frozen scientific code,

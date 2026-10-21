@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
-# Fetch OpenNeuro ds008496 (Gen-AI essay-writing EEG) from the public S3 bucket.
+# Rejected first dataset. This script is not part of the main PEERS pipeline.
 #
-# Downloads ~1.2 GB into data/ds008496/. Safe to re-run: files already on disk are skipped,
-# so if it gets interrupted just run it again.
+# It downloads OpenNeuro ds008496, the Gen-AI essay-writing EEG dataset that was
+# dropped in stage 1 after a task confound. It is kept so that rejection stays
+# reproducible. Do not use these files as inputs to the PEERS analysis.
+#
+# Fetch from the public S3 bucket. Downloads ~1.2 GB into data/ds008496/.
+# Safe to re-run: files already on disk are skipped, so if it gets interrupted
+# just run it again.
 #
 # Usage:  ./scripts/download_ds008496.sh
 
